@@ -160,10 +160,12 @@ def _find_codesign_identities(identity=None):
 def _find_codesign_identity(mobileprovision):
   """Finds a valid identity on the system given a mobileprovision file."""
   mpf = _parse_mobileprovision_file(mobileprovision)
-  ids_codesign = set(_find_codesign_identities())
+  # HACK: assuming we'll find one identity in the MPP and then
+  # we'll explicitly use this, bypassing the `security find-identity` check,
+  # since that will not find any identities provided by CTK.
+  # ids_codesign = set(_find_codesign_identities())
   for id_mpf in _get_identities_from_provisioning_profile(mpf):
-    if id_mpf in ids_codesign:
-      return id_mpf
+    return id_mpf
 
 
 def _filter_codesign_output(codesign_output):
